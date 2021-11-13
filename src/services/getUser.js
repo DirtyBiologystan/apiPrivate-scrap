@@ -3,8 +3,8 @@ const http = require("http");
 
 module.exports=(author)=>{
   return new Promise((resolve, reject) => {
-  https.get(
-    `https://back:8000/users/${author}`,
+  http.get(
+    `http://back:8000/users/${author}`,
     (req) => {
       req.setEncoding("utf8");
       req.on("error", (err) => {
