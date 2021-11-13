@@ -26,6 +26,7 @@ const tick = async (data) => {
       index: { type: Number, unique: true },
       hexColor: { type: String, index: true },
       author: { type: String, index: true },
+      pseudo: { type: String, index: true },
     })
   );
   let data = await init(model);

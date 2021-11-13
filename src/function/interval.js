@@ -1,5 +1,6 @@
 const redis = require("../services/redis");
 const io = require("../services/socket.io");
+const getUser = require("../services/getUser");
 const flagAfter = require("../request/flagAfter");
 const calculOne = require("./calculOne");
 
@@ -21,11 +22,12 @@ module.exports = async ({ countPixel, lastIndexInFlag, date, model }) => {
   flagDatas = await Promise.all(
     flagDatas.map(async (flagData) => {
       if (lastIndexInFlag < flagData.indexInFlag) {
-        console.log("newPixel");
+        let pseudo= await getUser(flagData.author);
         const newPixel = {
           ...flagData,
           ...calculOne(countPixel + 1),
           index: countPixel,
+          pseudo,
         };
         countPixel++;
         roomNewPixel.emit("newPixel", newPixel);
