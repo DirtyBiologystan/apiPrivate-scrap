@@ -19,7 +19,7 @@ module.exports = async ({ countPixel, date, model }) => {
     return { countPixel, date, model };
   }
 
-  flagDatas = await Promise.all(
+  flagDatas = await 
     flagDatas.reduce(async (accu, flagData) => {
       accu=await accu;
       const pixel = await model.findOne(
@@ -64,8 +64,7 @@ module.exports = async ({ countPixel, date, model }) => {
         },
       });
       return accu;
-    },[])
-  );
+    },[]);
   const bulk = await model.bulkWrite(flagDatas);
   const pRedis = await redis.set("time", date);
 
