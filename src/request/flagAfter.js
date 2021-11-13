@@ -2,9 +2,9 @@ const https = require("https");
 
 module.exports = async (date) =>
   new Promise((resolve, reject) => {
-    console.log(`https://api-flag.fouloscopie.com/flag/after/${date}`);
+    console.log(`${process.env.URL_FLAG}/flag/after/${date}`);
     https.get(
-      `https://api-flag.fouloscopie.com/flag/after/${date}`,
+      `${process.env.URL_FLAG}/flag/after/${date}`,
       (reqToFoulo) => {
         reqToFoulo.setEncoding("utf8");
         reqToFoulo.on("error", (err) => {
