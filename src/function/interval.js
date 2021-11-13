@@ -22,7 +22,7 @@ module.exports = async ({ countPixel, lastIndexInFlag, date, model }) => {
   flagDatas = await Promise.all(
     flagDatas.map(async (flagData) => {
       if (lastIndexInFlag < flagData.indexInFlag) {
-        let pseudo= await getUser(flagData.author);
+        let pseudo = await getUser(flagData.author);
         const newPixel = {
           ...flagData,
           ...calculOne(countPixel + 1),

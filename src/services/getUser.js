@@ -1,11 +1,8 @@
 const http = require("http");
 
-
-module.exports=(author)=>{
+module.exports = (author) => {
   return new Promise((resolve, reject) => {
-  http.get(
-    `http://back:8000/users/${author}`,
-    (req) => {
+    http.get(`http://back:8000/users/${author}`, (req) => {
       req.setEncoding("utf8");
       req.on("error", (err) => {
         reject(err);
@@ -31,5 +28,5 @@ module.exports=(author)=>{
         });
       }
     });
-  })
-}
+  });
+};
