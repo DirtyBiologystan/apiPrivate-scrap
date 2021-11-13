@@ -19,7 +19,7 @@ module.exports = async ({ countPixel, date, model }) => {
     return { countPixel, date, model };
   }
 
-  flagDatas = await 
+  flagDatas = await
     flagDatas.reduce(async (accu, flagData) => {
       accu=await accu;
       const pixel = await model.findOne(
@@ -44,16 +44,12 @@ module.exports = async ({ countPixel, date, model }) => {
         });
         return accu;
       }
-      const sockets = await roomNewPixel.allSockets();
-      if (!sockets.length) {
-
-        if (flagData.hexColor !== pixel.hexColor) {
-          roomChange.emit("changePixel", {
-            ...pixel.toObject(),
-            hexColor: flagData.hexColor,
-            oldHexColor: pixel.hexColor,
-          });
-        }
+      if (flagData.hexColor !== pixel.hexColor) {
+        roomChange.emit("changePixel", {
+          ...pixel.toObject(),
+          hexColor: flagData.hexColor,
+          oldHexColor: pixel.hexColor,
+        });
       }
       accu.push( {
         updateOne: {
