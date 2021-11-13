@@ -1,0 +1,38 @@
+version: '3.2'
+
+services:
+
+  back:
+    image: registry.gitlab.com/dirtybiologystan/api/apiprivate:main
+    ports:
+      - 8000:8000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/status"]
+      retries: 1
+      interval: 10s
+      timeout: 5s
+    environment:
+      - URL_GET_USER=$URL_GET_USER
+  scrap:
+    build: scrap/
+    volumes:
+      - ./:/application
+    ports:
+      - 8001:3000
+    command: ["npm","run","dev"]
+    environment:
+      - URL_FLAG=$URL_FLAG
+
+  # statusbot:
+  #   build: statusBot/
+  #   volumes:
+  #     - ./statusBot/:/application
+  #   command: ["npm","run","dev"]
+  #   environment:
+  #     - TOKEN=$TOKEN
+  redis:
+    image: redis
+  mongo:
+    image: mongo
+    ports:
+      - 27018:27017
