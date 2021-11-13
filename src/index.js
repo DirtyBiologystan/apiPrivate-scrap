@@ -8,7 +8,8 @@ const tick = async (data) => {
   try {
     setTimeout(tick, time, await interval(data));
   } catch (e) {
-    console.log(e);
+    console.error(e);
+    process.exit(1);
   }
 };
 
