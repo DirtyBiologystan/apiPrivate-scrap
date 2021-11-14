@@ -10,7 +10,7 @@ const tick = async (data) => {
     setTimeout(tick, time, await interval(data));
   } catch (e) {
     console.error(e);
-    setTimeout(tick, timeRetry, await interval(data));
+    setTimeout(tick, timeRetry, data);
   }
 };
 
