@@ -8,24 +8,23 @@ const roomNewPixel = io.to("newPixel");
 const roomChange = io.to("changePixel");
 const roomTotal = io.to("total");
 
-module.exports = async ({ countPixel, date, model }) => {
-  console.log("entri", { countPixel, date, model });
+module.exports = async ({ countPixel,lastIndexInFlag, date, model }) => {
+  console.log("entri", { countPixel,lastIndexInFlag, date, model });
+  let dateAfter = new Date().toISOString();
+
   let flagDatas = await flagAfter(date);
-  date = new Date(Date.now() - 5000).toISOString();
+  date=dateAfter
   if (!flagDatas.length) {
     console.log(date, "no data change");
     await redis.set("time", date);
-
-    return { countPixel, date, model };
+    return { countPixel, lastIndexInFlag, date, model };
   }
 
   flagDatas = await flagDatas.reduce(async (accu, flagData) => {
     accu = await accu;
-    const pixel = await model.findOne(
-      { indexInFlag: flagData.indexInFlag },
-      { _id: false }
-    );
-    if (!pixel) {
+
+    if (lastIndexInFlag < flagData.indexInFlag) {
+      lastIndexInFlag=flagData.indexInFlag;
       let pseudo = await getUser(flagData.author);
       const newPixel = {
         ...flagData,
@@ -44,6 +43,10 @@ module.exports = async ({ countPixel, date, model }) => {
       return accu;
     }
     let pseudo = await getUser(flagData.author);
+    const pixel = await model.findOne(
+      { indexInFlag: flagData.indexInFlag },
+      { _id: false }
+    );
     if (flagData.hexColor !== pixel.hexColor) {
       roomChange.emit("changePixel", {
         ...pixel.toObject(),
@@ -74,10 +77,10 @@ module.exports = async ({ countPixel, date, model }) => {
     return accu;
   }, []);
   const bulk = await model.bulkWrite(flagDatas);
-  const pRedis = await redis.set("time", date);
+  await redis.set("time", date);
 
   console.log(bulk);
-  console.log("sorti", { countPixel, date, model });
+  console.log("sorti", { countPixel,lastIndexInFlag, date, model });
 
-  return { countPixel, date, model };
+  return { countPixel, lastIndexInFlag, date, model };
 };
