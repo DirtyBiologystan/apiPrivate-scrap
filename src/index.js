@@ -3,13 +3,14 @@ const mongooseReq = require("mongoose");
 const init = require("./function/init");
 const interval = require("./function/interval");
 const time = 5000;
+const timeRetry = 2000;
 
 const tick = async (data) => {
   try {
     setTimeout(tick, time, await interval(data));
   } catch (e) {
     console.error(e);
-    process.exit(1);
+    setTimeout(tick, timeRetry, await interval(data));
   }
 };
 
@@ -28,10 +29,10 @@ const tick = async (data) => {
       hexColor: { type: String, index: true },
       author: { type: String, index: true },
       pseudo: { type: String, index: true },
-      modifier: {
+      modifier:{
         author: { type: String, index: true },
         pseudo: { type: String, index: true },
-      },
+      }
     })
   );
   let data = await init(model);
