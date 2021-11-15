@@ -28,6 +28,7 @@ module.exports = async ({ countPixel,lastIndexInFlag, date, model }) => {
       let pseudo = await getUser(flagData.author);
       const newPixel = {
         ...flagData,
+        hexColor:flagData.hexColor.toUpperCase(),
         ...calculOne(countPixel + 1),
         index: countPixel,
         pseudo,
@@ -50,8 +51,8 @@ module.exports = async ({ countPixel,lastIndexInFlag, date, model }) => {
     if (flagData.hexColor !== pixel.hexColor) {
       roomChange.emit("changePixel", {
         ...pixel.toObject(),
-        hexColor: flagData.hexColor,
-        oldHexColor: pixel.hexColor,
+        hexColor: flagData.hexColor.toUpperCase(),
+        oldHexColor: pixel.hexColor.toUpperCase(),
         modifier: {
           author: flagData.author,
           pseudo: pseudo,
@@ -65,7 +66,7 @@ module.exports = async ({ countPixel,lastIndexInFlag, date, model }) => {
         },
         update: {
           $set: {
-            hexColor: flagData.hexColor,
+            hexColor: flagData.hexColor.toUpperCase(),
             modifier: {
               author: flagData.author,
               pseudo: pseudo,
