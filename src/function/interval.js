@@ -48,7 +48,7 @@ module.exports = async ({ countPixel,lastIndexInFlag, date, model }) => {
       { indexInFlag: flagData.indexInFlag },
       { _id: false }
     );
-    if (flagData.hexColor !== pixel.hexColor) {
+    if (flagData.hexColor.toUpperCase() !== pixel.hexColor.toUpperCase()) {
       roomChange.emit("changePixel", {
         ...pixel.toObject(),
         hexColor: flagData.hexColor.toUpperCase(),
