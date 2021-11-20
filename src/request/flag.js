@@ -2,7 +2,12 @@ const https = require("https");
 
 module.exports = async () =>
   new Promise((resolve, reject) => {
-    https.get(`${process.env.URL_FLAG}/flag`, (reqToFoulo) => {
+    https.get(`${process.env.URL_FLAG}/flag`, {
+      headers:[
+        Origin:apiURL,
+        "User-Agent": "codati-scrap",
+    ]
+    },(reqToFoulo) => {
       reqToFoulo.setEncoding("utf8");
       reqToFoulo.on("error", (err) => {
         reject(err);
