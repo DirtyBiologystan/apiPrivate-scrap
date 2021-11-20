@@ -29,10 +29,10 @@ const tick = async (data) => {
       hexColor: { type: String, index: true },
       author: { type: String, index: true },
       pseudo: { type: String, index: true },
-      modifier:{
+      modifier: {
         author: { type: String, index: true },
         pseudo: { type: String, index: true },
-      }
+      },
     })
   );
   let data = await init(model);

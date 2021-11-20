@@ -23,7 +23,7 @@ module.exports = async (model) => {
           update: {
             $set: {
               ...flagData,
-              hexColor:flagData.hexColor.toUpperCase(),
+              hexColor: flagData.hexColor.toUpperCase(),
               ...coordonne[i],
               index: i,
             },

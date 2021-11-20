@@ -8,12 +8,12 @@ const roomNewPixel = io.to("newPixel");
 const roomChange = io.to("changePixel");
 const roomTotal = io.to("total");
 
-module.exports = async ({ countPixel,lastIndexInFlag, date, model }) => {
-  console.log("entri", { countPixel,lastIndexInFlag, date, model });
+module.exports = async ({ countPixel, lastIndexInFlag, date, model }) => {
+  console.log("entri", { countPixel, lastIndexInFlag, date, model });
   let dateAfter = new Date().toISOString();
 
   let flagDatas = await flagAfter(date);
-  date=dateAfter
+  date = dateAfter;
   if (!flagDatas.length) {
     console.log(date, "no data change");
     await redis.set("time", date);
@@ -24,11 +24,11 @@ module.exports = async ({ countPixel,lastIndexInFlag, date, model }) => {
     accu = await accu;
 
     if (lastIndexInFlag < flagData.indexInFlag) {
-      lastIndexInFlag=flagData.indexInFlag;
+      lastIndexInFlag = flagData.indexInFlag;
       let pseudo = await getUser(flagData.author);
       const newPixel = {
         ...flagData,
-        hexColor:flagData.hexColor.toUpperCase(),
+        hexColor: flagData.hexColor.toUpperCase(),
         ...calculOne(countPixel + 1),
         index: countPixel,
         pseudo,
@@ -81,7 +81,7 @@ module.exports = async ({ countPixel,lastIndexInFlag, date, model }) => {
   await redis.set("time", date);
 
   console.log(bulk);
-  console.log("sorti", { countPixel,lastIndexInFlag, date, model });
+  console.log("sorti", { countPixel, lastIndexInFlag, date, model });
 
   return { countPixel, lastIndexInFlag, date, model };
 };
